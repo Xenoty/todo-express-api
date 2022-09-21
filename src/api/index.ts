@@ -1,4 +1,5 @@
 import express from 'express';
+import Routes from '../helpers/Routes.helper';
 
 import MessageResponse from '../interfaces/MessageResponse';
 import todos from './todos/todos.routes';
@@ -11,6 +12,6 @@ router.get<{}, MessageResponse>('/', (req, res) => {
   });
 });
 
-router.use('/todos', todos);
+router.use(Routes.TODOS, todos);
 
 export default router;
