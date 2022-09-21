@@ -1,23 +1,27 @@
 import * as z from 'zod';
-import { v4 as uuidv4 } from 'uuid';
-import { unixTimeStampInSeconds } from '../../helpers/dateTimeUtility';
 
-export const Todo = z.object({
-  id: z.string().default(uuidv4()),
-  name: z.string(),
-  completed: z.boolean().default(false),
-  date_created: z.number().default(unixTimeStampInSeconds()),
-  date_completed: z.number(),
+export const BaseObject = z.object({
+  date_created: z.number().default(Date.now()),
+  date_updated: z.number().default(Date.now()),
+  deleted: z.boolean().default(false),
 });
 
-export const ListTodos = z.object({
-  id: z.string().default(uuidv4()),
-  name: z.string(),
-  todos: z.array(Todo),
-  completed: z.boolean().default(false),
-  date_created: z.number().default(unixTimeStampInSeconds()),
-  date_completed: z.number(),
-});
+export const Todo = z
+  .object({
+    name: z.string().trim().max(150).min(1),
+    completed: z.boolean().default(false),
+    date_completed: z.number().nullable().default(null),
+  })
+  .merge(BaseObject);
+
+export const TodoContainer = z
+  .object({
+    name: z.string().trim().max(150).min(1),
+    todos: z.array(Todo),
+    completed: z.boolean().default(false),
+    date_completed: z.number().nullable().default(null),
+  })
+  .merge(BaseObject);
 
 export type Todo = z.infer<typeof Todo>;
-export type ListTodos = z.infer<typeof ListTodos>;
+export type TodoContainer = z.infer<typeof TodoContainer>;

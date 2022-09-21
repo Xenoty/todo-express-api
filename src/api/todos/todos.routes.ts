@@ -1,26 +1,26 @@
 import { Router, Response, Request } from 'express';
-import { unixTimeStampInSeconds } from '../../helpers/dateTimeUtility';
-import { ListTodos } from './todos.model';
+import { TodoContainer } from './todos.model';
 
 const router = Router();
-
-router.get('/', (req: Request, res: Response<ListTodos[]>) => {
+router.get('/', (req: Request, res: Response<TodoContainer[]>) => {
   res.json([
     {
-      id: '1',
       name: 'Todo List 1',
       todos: [
         {
-          id: '1',
           name: 'Todo 1',
           completed: false,
-          date_created: unixTimeStampInSeconds(),
-          date_completed: 0,
+          date_completed: null,
+          date_created: Date.now(),
+          date_updated: Date.now(),
+          deleted: false,
         },
       ],
       completed: false,
-      date_created: unixTimeStampInSeconds(),
-      date_completed: 0,
+      date_created: Date.now(),
+      date_updated: Date.now(),
+      date_completed: null,
+      deleted: false,
     },
   ]);
 });
